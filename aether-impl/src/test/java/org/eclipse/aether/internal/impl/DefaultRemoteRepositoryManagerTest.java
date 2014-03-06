@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.aether.internal.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,7 +20,6 @@ import java.util.List;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.impl.UpdatePolicyAnalyzer;
-import org.eclipse.aether.internal.impl.DefaultRemoteRepositoryManager;
 import org.eclipse.aether.internal.test.util.TestLoggerFactory;
 import org.eclipse.aether.internal.test.util.TestUtils;
 import org.eclipse.aether.repository.MirrorSelector;
@@ -50,9 +50,9 @@ public class DefaultRemoteRepositoryManagerTest
         session.setChecksumPolicy( null );
         session.setUpdatePolicy( null );
         manager = new DefaultRemoteRepositoryManager();
-        manager.setUpdatePolicyAnalyzer( new StubUpdatePolicyAnalyzer() );
-        manager.setChecksumPolicyProvider( new DefaultChecksumPolicyProvider() );
-        manager.setLoggerFactory( new TestLoggerFactory() );
+        manager.withUpdatePolicyAnalyzer( new StubUpdatePolicyAnalyzer() );
+        manager.withChecksumPolicyProvider( new StubChecksumPolicyProvider() );
+        manager.withLoggerFactory( new TestLoggerFactory() );
     }
 
     @After
@@ -98,6 +98,7 @@ public class DefaultRemoteRepositoryManagerTest
 
         RepositoryPolicy effectivePolicy = manager.getPolicy( session, repo, true, true );
         assertEquals( true, effectivePolicy.isEnabled() );
+        // FIXME - using a stub now
         assertEquals( RepositoryPolicy.CHECKSUM_POLICY_IGNORE, effectivePolicy.getChecksumPolicy() );
         assertEquals( RepositoryPolicy.UPDATE_POLICY_ALWAYS, effectivePolicy.getUpdatePolicy() );
     }

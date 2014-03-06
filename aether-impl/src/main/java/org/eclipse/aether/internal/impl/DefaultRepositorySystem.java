@@ -97,6 +97,10 @@ public class DefaultRepositorySystem
     @Requirement
     private ArtifactResolver artifactResolver;
 
+    public void setArtifactResolver(ArtifactResolver artifactResolver) {
+        this.artifactResolver = artifactResolver;
+    }
+
     @Requirement
     private MetadataResolver metadataResolver;
 
@@ -124,6 +128,7 @@ public class DefaultRepositorySystem
     public DefaultRepositorySystem()
     {
         // enables default constructor
+    	System.out.println("test");
     }
 
     @Inject
@@ -134,37 +139,37 @@ public class DefaultRepositorySystem
                              LocalRepositoryProvider localRepositoryProvider, SyncContextFactory syncContextFactory,
                              RemoteRepositoryManager remoteRepositoryManager, LoggerFactory loggerFactory )
     {
-        setVersionResolver( versionResolver );
-        setVersionRangeResolver( versionRangeResolver );
-        setArtifactResolver( artifactResolver );
-        setMetadataResolver( metadataResolver );
-        setArtifactDescriptorReader( artifactDescriptorReader );
-        setDependencyCollector( dependencyCollector );
-        setInstaller( installer );
-        setDeployer( deployer );
-        setLocalRepositoryProvider( localRepositoryProvider );
-        setSyncContextFactory( syncContextFactory );
-        setRemoteRepositoryManager( remoteRepositoryManager );
-        setLoggerFactory( loggerFactory );
+        withVersionResolver( versionResolver );
+        withVersionRangeResolver( versionRangeResolver );
+        withArtifactResolver( artifactResolver );
+        withMetadataResolver( metadataResolver );
+        withArtifactDescriptorReader( artifactDescriptorReader );
+        withDependencyCollector( dependencyCollector );
+        withInstaller( installer );
+        withDeployer( deployer );
+        withLocalRepositoryProvider( localRepositoryProvider );
+        withSyncContextFactory( syncContextFactory );
+        withRemoteRepositoryManager( remoteRepositoryManager );
+        withLoggerFactory( loggerFactory );
     }
 
     public void initService( ServiceLocator locator )
     {
-        setLoggerFactory( locator.getService( LoggerFactory.class ) );
-        setVersionResolver( locator.getService( VersionResolver.class ) );
-        setVersionRangeResolver( locator.getService( VersionRangeResolver.class ) );
-        setArtifactResolver( locator.getService( ArtifactResolver.class ) );
-        setMetadataResolver( locator.getService( MetadataResolver.class ) );
-        setArtifactDescriptorReader( locator.getService( ArtifactDescriptorReader.class ) );
-        setDependencyCollector( locator.getService( DependencyCollector.class ) );
-        setInstaller( locator.getService( Installer.class ) );
-        setDeployer( locator.getService( Deployer.class ) );
-        setLocalRepositoryProvider( locator.getService( LocalRepositoryProvider.class ) );
-        setRemoteRepositoryManager( locator.getService( RemoteRepositoryManager.class ) );
-        setSyncContextFactory( locator.getService( SyncContextFactory.class ) );
+        withLoggerFactory( locator.getService( LoggerFactory.class ) );
+        withVersionResolver( locator.getService( VersionResolver.class ) );
+        withVersionRangeResolver( locator.getService( VersionRangeResolver.class ) );
+        withArtifactResolver( locator.getService( ArtifactResolver.class ) );
+        withMetadataResolver( locator.getService( MetadataResolver.class ) );
+        withArtifactDescriptorReader( locator.getService( ArtifactDescriptorReader.class ) );
+        withDependencyCollector( locator.getService( DependencyCollector.class ) );
+        withInstaller( locator.getService( Installer.class ) );
+        withDeployer( locator.getService( Deployer.class ) );
+        withLocalRepositoryProvider( locator.getService( LocalRepositoryProvider.class ) );
+        withRemoteRepositoryManager( locator.getService( RemoteRepositoryManager.class ) );
+        withSyncContextFactory( locator.getService( SyncContextFactory.class ) );
     }
 
-    public DefaultRepositorySystem setLoggerFactory( LoggerFactory loggerFactory )
+    public DefaultRepositorySystem withLoggerFactory( LoggerFactory loggerFactory )
     {
         this.logger = NullLoggerFactory.getSafeLogger( loggerFactory, getClass() );
         return this;
@@ -173,10 +178,10 @@ public class DefaultRepositorySystem
     void setLogger( LoggerFactory loggerFactory )
     {
         // plexus support
-        setLoggerFactory( loggerFactory );
+        withLoggerFactory( loggerFactory );
     }
 
-    public DefaultRepositorySystem setVersionResolver( VersionResolver versionResolver )
+    public DefaultRepositorySystem withVersionResolver( VersionResolver versionResolver )
     {
         if ( versionResolver == null )
         {
@@ -186,7 +191,11 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setVersionRangeResolver( VersionRangeResolver versionRangeResolver )
+    public void setVersionRangeResolver(VersionRangeResolver versionRangeResolver) {
+        this.versionRangeResolver = versionRangeResolver;
+    }
+
+    public DefaultRepositorySystem withVersionRangeResolver( VersionRangeResolver versionRangeResolver )
     {
         if ( versionRangeResolver == null )
         {
@@ -196,7 +205,7 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setArtifactResolver( ArtifactResolver artifactResolver )
+    public DefaultRepositorySystem withArtifactResolver( ArtifactResolver artifactResolver )
     {
         if ( artifactResolver == null )
         {
@@ -206,7 +215,7 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setMetadataResolver( MetadataResolver metadataResolver )
+    public DefaultRepositorySystem withMetadataResolver( MetadataResolver metadataResolver )
     {
         if ( metadataResolver == null )
         {
@@ -216,7 +225,7 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setArtifactDescriptorReader( ArtifactDescriptorReader artifactDescriptorReader )
+    public DefaultRepositorySystem withArtifactDescriptorReader( ArtifactDescriptorReader artifactDescriptorReader )
     {
         if ( artifactDescriptorReader == null )
         {
@@ -226,7 +235,7 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setDependencyCollector( DependencyCollector dependencyCollector )
+    public DefaultRepositorySystem withDependencyCollector( DependencyCollector dependencyCollector )
     {
         if ( dependencyCollector == null )
         {
@@ -236,7 +245,7 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setInstaller( Installer installer )
+    public DefaultRepositorySystem withInstaller( Installer installer )
     {
         if ( installer == null )
         {
@@ -246,7 +255,7 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setDeployer( Deployer deployer )
+    public DefaultRepositorySystem withDeployer( Deployer deployer )
     {
         if ( deployer == null )
         {
@@ -256,7 +265,11 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setLocalRepositoryProvider( LocalRepositoryProvider localRepositoryProvider )
+    public void setLocalRepositoryProvider(LocalRepositoryProvider localRepositoryProvider) {
+        this.localRepositoryProvider = localRepositoryProvider;
+    }
+
+    public DefaultRepositorySystem withLocalRepositoryProvider( LocalRepositoryProvider localRepositoryProvider )
     {
         if ( localRepositoryProvider == null )
         {
@@ -266,7 +279,7 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setSyncContextFactory( SyncContextFactory syncContextFactory )
+    public DefaultRepositorySystem withSyncContextFactory( SyncContextFactory syncContextFactory )
     {
         if ( syncContextFactory == null )
         {
@@ -276,7 +289,11 @@ public class DefaultRepositorySystem
         return this;
     }
 
-    public DefaultRepositorySystem setRemoteRepositoryManager( RemoteRepositoryManager remoteRepositoryManager )
+    public void setRemoteRepositoryManager(RemoteRepositoryManager remoteRepositoryManager) {
+        this.remoteRepositoryManager = remoteRepositoryManager;
+    }
+    
+    public DefaultRepositorySystem withRemoteRepositoryManager( RemoteRepositoryManager remoteRepositoryManager )
     {
         if ( remoteRepositoryManager == null )
         {

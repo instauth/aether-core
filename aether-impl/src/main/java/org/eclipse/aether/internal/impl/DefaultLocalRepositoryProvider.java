@@ -31,6 +31,9 @@ import org.eclipse.aether.spi.locator.ServiceLocator;
 import org.eclipse.aether.spi.log.Logger;
 import org.eclipse.aether.spi.log.LoggerFactory;
 import org.eclipse.aether.spi.log.NullLoggerFactory;
+import org.eclipse.aether.util.PrioritizedComponent;
+import org.eclipse.aether.util.PrioritizedComponents;
+import org.eclipse.aether.util.StringUtils;
 
 /**
  */
@@ -49,6 +52,7 @@ public class DefaultLocalRepositoryProvider
     public DefaultLocalRepositoryProvider()
     {
         // enables default constructor
+    	System.out.println("default local repository provider");
     }
 
     @Inject
@@ -126,7 +130,7 @@ public class DefaultLocalRepositoryProvider
                 {
                     StringBuilder buffer = new StringBuilder( 256 );
                     buffer.append( "Using manager " ).append( manager.getClass().getSimpleName() );
-                    Utils.appendClassLoader( buffer, manager );
+                    StringUtils.appendClassLoader( buffer, manager );
                     buffer.append( " with priority " ).append( factory.getPriority() );
                     buffer.append( " for " ).append( repository.getBasedir() );
 

@@ -8,7 +8,7 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,12 +17,11 @@ import java.util.Map;
 
 import org.eclipse.aether.ConfigurationProperties;
 import org.eclipse.aether.RepositorySystemSession;
-import org.eclipse.aether.util.ConfigUtils;
 
 /**
  * Helps to sort pluggable components by their priority.
  */
-final class PrioritizedComponents<T>
+public final class PrioritizedComponents<T>
 {
 
     private final static String FACTORY_SUFFIX = "Factory";

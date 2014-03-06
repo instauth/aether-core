@@ -8,7 +8,7 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.connector.basic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +31,8 @@ import org.eclipse.aether.spi.log.Logger;
 import org.eclipse.aether.spi.log.LoggerFactory;
 import org.eclipse.aether.spi.log.NullLoggerFactory;
 import org.eclipse.aether.transfer.NoRepositoryLayoutException;
+import org.eclipse.aether.util.PrioritizedComponent;
+import org.eclipse.aether.util.PrioritizedComponents;
 
 /**
  */
@@ -46,6 +48,10 @@ public final class DefaultRepositoryLayoutProvider
     @Requirement( role = RepositoryLayoutFactory.class )
     private Collection<RepositoryLayoutFactory> factories = new ArrayList<RepositoryLayoutFactory>();
 
+    public void setRepositoryLayoutFactory(Collection<RepositoryLayoutFactory> repositoryLayoutFactory) {
+        this.factories = repositoryLayoutFactory;
+    }
+
     public DefaultRepositoryLayoutProvider()
     {
         // enables default constructor
@@ -55,13 +61,13 @@ public final class DefaultRepositoryLayoutProvider
     DefaultRepositoryLayoutProvider( Set<RepositoryLayoutFactory> layoutFactories, LoggerFactory loggerFactory )
     {
         setLoggerFactory( loggerFactory );
-        setRepositoryLayoutFactories( layoutFactories );
+        withRepositoryLayoutFactories( layoutFactories );
     }
 
     public void initService( ServiceLocator locator )
     {
         setLoggerFactory( locator.getService( LoggerFactory.class ) );
-        setRepositoryLayoutFactories( locator.getServices( RepositoryLayoutFactory.class ) );
+        withRepositoryLayoutFactories( locator.getServices( RepositoryLayoutFactory.class ) );
     }
 
     public DefaultRepositoryLayoutProvider setLoggerFactory( LoggerFactory loggerFactory )
@@ -86,7 +92,7 @@ public final class DefaultRepositoryLayoutProvider
         return this;
     }
 
-    public DefaultRepositoryLayoutProvider setRepositoryLayoutFactories( Collection<RepositoryLayoutFactory> factories )
+    public DefaultRepositoryLayoutProvider withRepositoryLayoutFactories( Collection<RepositoryLayoutFactory> factories )
     {
         if ( factories == null )
         {
@@ -99,10 +105,10 @@ public final class DefaultRepositoryLayoutProvider
         return this;
     }
 
-    DefaultRepositoryLayoutProvider setFactories( List<RepositoryLayoutFactory> factories )
+    DefaultRepositoryLayoutProvider withFactories( List<RepositoryLayoutFactory> factories )
     {
         // plexus support
-        return setRepositoryLayoutFactories( factories );
+        return withRepositoryLayoutFactories( factories );
     }
 
     public RepositoryLayout newRepositoryLayout( RepositorySystemSession session, RemoteRepository repository )

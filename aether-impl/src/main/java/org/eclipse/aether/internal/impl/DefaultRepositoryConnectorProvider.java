@@ -33,6 +33,9 @@ import org.eclipse.aether.spi.log.Logger;
 import org.eclipse.aether.spi.log.LoggerFactory;
 import org.eclipse.aether.spi.log.NullLoggerFactory;
 import org.eclipse.aether.transfer.NoRepositoryConnectorException;
+import org.eclipse.aether.util.PrioritizedComponent;
+import org.eclipse.aether.util.PrioritizedComponents;
+import org.eclipse.aether.util.StringUtils;
 
 /**
  */
@@ -47,6 +50,10 @@ public class DefaultRepositoryConnectorProvider
 
     @Requirement( role = RepositoryConnectorFactory.class )
     private Collection<RepositoryConnectorFactory> connectorFactories = new ArrayList<RepositoryConnectorFactory>();
+    
+    public void setRepositoryConnectorFactories(Collection<RepositoryConnectorFactory> connectorFactories) {
+        this.connectorFactories = connectorFactories;
+    }
 
     public DefaultRepositoryConnectorProvider()
     {
@@ -56,17 +63,17 @@ public class DefaultRepositoryConnectorProvider
     @Inject
     DefaultRepositoryConnectorProvider( Set<RepositoryConnectorFactory> connectorFactories, LoggerFactory loggerFactory )
     {
-        setRepositoryConnectorFactories( connectorFactories );
-        setLoggerFactory( loggerFactory );
+        withRepositoryConnectorFactories( connectorFactories );
+        withLoggerFactory( loggerFactory );
     }
 
     public void initService( ServiceLocator locator )
     {
-        setLoggerFactory( locator.getService( LoggerFactory.class ) );
+        withLoggerFactory( locator.getService( LoggerFactory.class ) );
         connectorFactories = locator.getServices( RepositoryConnectorFactory.class );
     }
 
-    public DefaultRepositoryConnectorProvider setLoggerFactory( LoggerFactory loggerFactory )
+    public DefaultRepositoryConnectorProvider withLoggerFactory( LoggerFactory loggerFactory )
     {
         this.logger = NullLoggerFactory.getSafeLogger( loggerFactory, getClass() );
         return this;
@@ -75,7 +82,7 @@ public class DefaultRepositoryConnectorProvider
     void setLogger( LoggerFactory loggerFactory )
     {
         // plexus support
-        setLoggerFactory( loggerFactory );
+        withLoggerFactory( loggerFactory );
     }
 
     public DefaultRepositoryConnectorProvider addRepositoryConnectorFactory( RepositoryConnectorFactory factory )
@@ -88,7 +95,7 @@ public class DefaultRepositoryConnectorProvider
         return this;
     }
 
-    public DefaultRepositoryConnectorProvider setRepositoryConnectorFactories( Collection<RepositoryConnectorFactory> factories )
+    public DefaultRepositoryConnectorProvider withRepositoryConnectorFactories( Collection<RepositoryConnectorFactory> factories )
     {
         if ( factories == null )
         {
@@ -101,10 +108,10 @@ public class DefaultRepositoryConnectorProvider
         return this;
     }
 
-    DefaultRepositoryConnectorProvider setConnectorFactories( List<RepositoryConnectorFactory> factories )
+    DefaultRepositoryConnectorProvider withConnectorFactories( List<RepositoryConnectorFactory> factories )
     {
         // plexus support
-        return setRepositoryConnectorFactories( factories );
+        return withRepositoryConnectorFactories( factories );
     }
 
     public RepositoryConnector newRepositoryConnector( RepositorySystemSession session, RemoteRepository repository )
@@ -133,7 +140,7 @@ public class DefaultRepositoryConnectorProvider
                 {
                     StringBuilder buffer = new StringBuilder( 256 );
                     buffer.append( "Using connector " ).append( connector.getClass().getSimpleName() );
-                    Utils.appendClassLoader( buffer, connector );
+                    StringUtils.appendClassLoader( buffer, connector );
                     buffer.append( " with priority " ).append( factory.getPriority() );
                     buffer.append( " for " ).append( repository.getUrl() );
 

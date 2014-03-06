@@ -30,10 +30,10 @@ import javax.inject.Named;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.eclipse.aether.RepositoryEvent;
+import org.eclipse.aether.RepositoryEvent.EventType;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.RequestTrace;
 import org.eclipse.aether.SyncContext;
-import org.eclipse.aether.RepositoryEvent.EventType;
 import org.eclipse.aether.impl.MetadataResolver;
 import org.eclipse.aether.impl.OfflineController;
 import org.eclipse.aether.impl.RemoteRepositoryManager;
@@ -84,20 +84,44 @@ public class DefaultMetadataResolver
     @Requirement
     private RepositoryEventDispatcher repositoryEventDispatcher;
 
+    public void setRepositoryEventDispatcher(RepositoryEventDispatcher repositoryEventDispatcher) {
+        this.repositoryEventDispatcher = repositoryEventDispatcher;
+    }
+
     @Requirement
     private UpdateCheckManager updateCheckManager;
+    
+    public void setUpdateCheckManager(UpdateCheckManager updateCheckManager) {
+        this.updateCheckManager = updateCheckManager;
+    }
 
     @Requirement
     private RepositoryConnectorProvider repositoryConnectorProvider;
+    
+    public void setRepositoryConnectorProvider(RepositoryConnectorProvider repositoryConnectorProvider) {
+        this.repositoryConnectorProvider = repositoryConnectorProvider;
+    }
 
     @Requirement
     private RemoteRepositoryManager remoteRepositoryManager;
+    
+    public void setRemoteRepositoryManager(RemoteRepositoryManager remoteRepositoryManager) {
+        this.remoteRepositoryManager = remoteRepositoryManager;
+    }
 
     @Requirement
     private SyncContextFactory syncContextFactory;
 
+    public void setSyncContextFactory(SyncContextFactory syncContextFactory) {
+        this.syncContextFactory = syncContextFactory;
+    }
+
     @Requirement
     private OfflineController offlineController;
+
+    public void setOfflineController(OfflineController offlineController) {
+        this.offlineController = offlineController;
+    }
 
     public DefaultMetadataResolver()
     {
@@ -111,27 +135,27 @@ public class DefaultMetadataResolver
                              RemoteRepositoryManager remoteRepositoryManager, SyncContextFactory syncContextFactory,
                              OfflineController offlineController, LoggerFactory loggerFactory )
     {
-        setRepositoryEventDispatcher( repositoryEventDispatcher );
-        setUpdateCheckManager( updateCheckManager );
-        setRepositoryConnectorProvider( repositoryConnectorProvider );
-        setRemoteRepositoryManager( remoteRepositoryManager );
-        setSyncContextFactory( syncContextFactory );
-        setOfflineController( offlineController );
-        setLoggerFactory( loggerFactory );
+        withRepositoryEventDispatcher( repositoryEventDispatcher );
+        withUpdateCheckManager( updateCheckManager );
+        withRepositoryConnectorProvider( repositoryConnectorProvider );
+        withRemoteRepositoryManager( remoteRepositoryManager );
+        withSyncContextFactory( syncContextFactory );
+        withOfflineController( offlineController );
+        withLoggerFactory( loggerFactory );
     }
 
     public void initService( ServiceLocator locator )
     {
-        setLoggerFactory( locator.getService( LoggerFactory.class ) );
-        setRepositoryEventDispatcher( locator.getService( RepositoryEventDispatcher.class ) );
-        setUpdateCheckManager( locator.getService( UpdateCheckManager.class ) );
-        setRepositoryConnectorProvider( locator.getService( RepositoryConnectorProvider.class ) );
-        setRemoteRepositoryManager( locator.getService( RemoteRepositoryManager.class ) );
-        setSyncContextFactory( locator.getService( SyncContextFactory.class ) );
-        setOfflineController( locator.getService( OfflineController.class ) );
+        withLoggerFactory( locator.getService( LoggerFactory.class ) );
+        withRepositoryEventDispatcher( locator.getService( RepositoryEventDispatcher.class ) );
+        withUpdateCheckManager( locator.getService( UpdateCheckManager.class ) );
+        withRepositoryConnectorProvider( locator.getService( RepositoryConnectorProvider.class ) );
+        withRemoteRepositoryManager( locator.getService( RemoteRepositoryManager.class ) );
+        withSyncContextFactory( locator.getService( SyncContextFactory.class ) );
+        withOfflineController( locator.getService( OfflineController.class ) );
     }
 
-    public DefaultMetadataResolver setLoggerFactory( LoggerFactory loggerFactory )
+    public DefaultMetadataResolver withLoggerFactory( LoggerFactory loggerFactory )
     {
         this.logger = NullLoggerFactory.getSafeLogger( loggerFactory, getClass() );
         return this;
@@ -140,10 +164,10 @@ public class DefaultMetadataResolver
     void setLogger( LoggerFactory loggerFactory )
     {
         // plexus support
-        setLoggerFactory( loggerFactory );
+        withLoggerFactory( loggerFactory );
     }
 
-    public DefaultMetadataResolver setRepositoryEventDispatcher( RepositoryEventDispatcher repositoryEventDispatcher )
+    public DefaultMetadataResolver withRepositoryEventDispatcher( RepositoryEventDispatcher repositoryEventDispatcher )
     {
         if ( repositoryEventDispatcher == null )
         {
@@ -153,7 +177,7 @@ public class DefaultMetadataResolver
         return this;
     }
 
-    public DefaultMetadataResolver setUpdateCheckManager( UpdateCheckManager updateCheckManager )
+    public DefaultMetadataResolver withUpdateCheckManager( UpdateCheckManager updateCheckManager )
     {
         if ( updateCheckManager == null )
         {
@@ -163,7 +187,7 @@ public class DefaultMetadataResolver
         return this;
     }
 
-    public DefaultMetadataResolver setRepositoryConnectorProvider( RepositoryConnectorProvider repositoryConnectorProvider )
+    public DefaultMetadataResolver withRepositoryConnectorProvider( RepositoryConnectorProvider repositoryConnectorProvider )
     {
         if ( repositoryConnectorProvider == null )
         {
@@ -173,7 +197,7 @@ public class DefaultMetadataResolver
         return this;
     }
 
-    public DefaultMetadataResolver setRemoteRepositoryManager( RemoteRepositoryManager remoteRepositoryManager )
+    public DefaultMetadataResolver withRemoteRepositoryManager( RemoteRepositoryManager remoteRepositoryManager )
     {
         if ( remoteRepositoryManager == null )
         {
@@ -183,7 +207,7 @@ public class DefaultMetadataResolver
         return this;
     }
 
-    public DefaultMetadataResolver setSyncContextFactory( SyncContextFactory syncContextFactory )
+    public DefaultMetadataResolver withSyncContextFactory( SyncContextFactory syncContextFactory )
     {
         if ( syncContextFactory == null )
         {
@@ -193,7 +217,7 @@ public class DefaultMetadataResolver
         return this;
     }
 
-    public DefaultMetadataResolver setOfflineController( OfflineController offlineController )
+    public DefaultMetadataResolver withOfflineController( OfflineController offlineController )
     {
         if ( offlineController == null )
         {

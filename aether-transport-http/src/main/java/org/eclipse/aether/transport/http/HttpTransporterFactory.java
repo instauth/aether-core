@@ -49,6 +49,7 @@ public final class HttpTransporterFactory
     public HttpTransporterFactory()
     {
         // enables default constructor
+        System.out.println("HTTP transporter factory");
     }
 
     @Inject

@@ -10,10 +10,16 @@
  *******************************************************************************/
 package org.eclipse.aether.internal.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -25,8 +31,6 @@ import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.installation.InstallRequest;
 import org.eclipse.aether.installation.InstallResult;
 import org.eclipse.aether.installation.InstallationException;
-import org.eclipse.aether.internal.impl.DefaultFileProcessor;
-import org.eclipse.aether.internal.impl.DefaultInstaller;
 import org.eclipse.aether.internal.test.util.TestFileProcessor;
 import org.eclipse.aether.internal.test.util.TestFileUtils;
 import org.eclipse.aether.internal.test.util.TestLocalRepositoryManager;
@@ -34,6 +38,7 @@ import org.eclipse.aether.internal.test.util.TestUtils;
 import org.eclipse.aether.metadata.DefaultMetadata;
 import org.eclipse.aether.metadata.Metadata;
 import org.eclipse.aether.metadata.Metadata.Nature;
+import org.eclipse.aether.spi.io.FileProcessor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -363,13 +368,28 @@ public class DefaultInstallerTest
         request.addArtifact( artifact );
         installer.install( session, request );
 
-        installer.setFileProcessor( new DefaultFileProcessor()
+        installer.setFileProcessor( new FileProcessor()
         {
-            @Override
             public long copy( File src, File target, ProgressListener listener )
                 throws IOException
             {
                 throw new IOException( "copy called" );
+            }
+
+            public boolean mkdirs(File directory) {
+                return false;
+            }
+
+            public void write(File target, String data) throws IOException {
+            }
+
+            public void write(File target, InputStream source) throws IOException {
+            }
+
+            public void move(File source, File target) throws IOException {
+            }
+
+            public void copy(File source, File target) throws IOException {
             }
         } );
 

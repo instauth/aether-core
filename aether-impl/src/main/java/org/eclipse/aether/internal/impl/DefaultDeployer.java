@@ -25,11 +25,11 @@ import javax.inject.Named;
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.eclipse.aether.RepositoryEvent;
+import org.eclipse.aether.RepositoryEvent.EventType;
 import org.eclipse.aether.RepositoryException;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.RequestTrace;
 import org.eclipse.aether.SyncContext;
-import org.eclipse.aether.RepositoryEvent.EventType;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.deployment.DeployRequest;
 import org.eclipse.aether.deployment.DeployResult;
@@ -66,6 +66,8 @@ import org.eclipse.aether.transfer.NoRepositoryConnectorException;
 import org.eclipse.aether.transfer.RepositoryOfflineException;
 import org.eclipse.aether.transfer.TransferCancelledException;
 import org.eclipse.aether.transfer.TransferEvent;
+import org.eclipse.aether.util.PrioritizedComponent;
+import org.eclipse.aether.util.PrioritizedComponents;
 
 /**
  */

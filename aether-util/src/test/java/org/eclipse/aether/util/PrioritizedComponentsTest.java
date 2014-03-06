@@ -8,7 +8,7 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.util;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.concurrent.ThreadFactory;
 
 import org.eclipse.aether.ConfigurationProperties;
+import org.eclipse.aether.util.PrioritizedComponent;
+import org.eclipse.aether.util.PrioritizedComponents;
 import org.junit.Test;
 
 public class PrioritizedComponentsTest

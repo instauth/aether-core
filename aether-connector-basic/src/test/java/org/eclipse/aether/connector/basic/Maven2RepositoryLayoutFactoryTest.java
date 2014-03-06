@@ -8,7 +8,7 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.connector.basic;
 
 import static org.junit.Assert.*;
 
@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.connector.basic.Maven2RepositoryLayoutFactory;
 import org.eclipse.aether.internal.test.util.TestUtils;
 import org.eclipse.aether.metadata.DefaultMetadata;
 import org.eclipse.aether.metadata.Metadata;

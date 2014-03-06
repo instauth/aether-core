@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.aether.util;
 
+
 /**
  * A utility class to ease string processing.
  */
@@ -30,6 +31,15 @@ public final class StringUtils
     public static boolean isEmpty( String string )
     {
         return string == null || string.length() <= 0;
+    }
+
+    public static void appendClassLoader( StringBuilder buffer, Object component )
+    {
+        ClassLoader loader = component.getClass().getClassLoader();
+        if ( loader != null && !loader.equals( StringUtils.class.getClassLoader() ) )
+        {
+            buffer.append( " from " ).append( loader );
+        }
     }
 
 }

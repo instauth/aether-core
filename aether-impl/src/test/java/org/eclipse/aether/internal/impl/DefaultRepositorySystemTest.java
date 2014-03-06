@@ -39,7 +39,7 @@ public class DefaultRepositorySystemTest
     {
         DefaultRemoteRepositoryManager remoteRepoManager = new DefaultRemoteRepositoryManager();
         system = new DefaultRepositorySystem();
-        system.setRemoteRepositoryManager( remoteRepoManager );
+        system.withRemoteRepositoryManager( remoteRepoManager );
         session = TestUtils.newSession();
     }
 

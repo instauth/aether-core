@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+
+<!-- 
+	<bean id="loggerContext" class="ch.qos.logback.classic.LoggerContext" />
+	<bean id="loggerFactory" class="org.eclipse.aether.internal.impl.Slf4jLoggerFactory" />
+ -->
+
+	<reference-list id="repositoryConnectorFactories" interface="org.eclipse.aether.spi.connector.RepositoryConnectorFactory" />
+
+	<reference id="checksumPolicyProvider" interface="org.eclipse.aether.spi.connector.checksum.ChecksumPolicyProvider" />
+
+	<bean id="versionRangeResolver" class="org.eclipse.aether.impl.DefaultVersionRangeResolver">
+		<property name="metadataResolver" ref="metadataResolver" />
+		<property name="syncContextFactory" ref="syncContextFactory" />
+	</bean>
+	<service ref="versionRangeResolver" interface="org.eclipse.aether.impl.VersionRangeResolver" />
+
+<!-- 
+	<bean class="org.eclipse.aether.internal.impl.DefaultDependencyCollector" />
+
+	<bean class="org.eclipse.aether.internal.impl.DefaultDependencyCollector" />
+
+	<bean class="org.eclipse.aether.internal.impl.DefaultInstaller" />
+-->
+
+	<bean id="metadataResolver" class="org.eclipse.aether.internal.impl.DefaultMetadataResolver">
+		<property name="syncContextFactory" ref="syncContextFactory" />
+		<property name="repositoryEventDispatcher" ref="repositoryEventDispatcher" />
+		<property name="offlineController" ref="offlineController" />
+		<property name="remoteRepositoryManager" ref="remoteRepositoryManager" />
+		<property name="updateCheckManager" ref="updateCheckManager" />
+		<property name="repositoryConnectorProvider" ref="repositoryConnectorProvider" />
+	</bean>
+
+	<bean id="repositoryConnectorProvider" class="org.eclipse.aether.internal.impl.DefaultRepositoryConnectorProvider">
+		<property name="repositoryConnectorFactories" ref="repositoryConnectorFactories" />
+	</bean>
+	<service ref="repositoryConnectorProvider" interface="org.eclipse.aether.impl.RepositoryConnectorProvider" />
+
+	<bean id="remoteRepositoryManager" class="org.eclipse.aether.internal.impl.DefaultRemoteRepositoryManager">
+		<property name="updatePolicyAnalyzer" ref="updatePolicyAnalyzer"></property>
+		<property name="checksumPolicyProvider" ref="checksumPolicyProvider"></property>
+	</bean>
+	<service ref="remoteRepositoryManager" interface="org.eclipse.aether.impl.RemoteRepositoryManager" />
+
+	<bean id="updateCheckManager" class="org.eclipse.aether.internal.impl.DefaultUpdateCheckManager">
+		<property name="updatePolicyAnalyzer" ref="updatePolicyAnalyzer" />
+	</bean>
+
+	<bean id="updatePolicyAnalyzer" class="org.eclipse.aether.internal.impl.DefaultUpdatePolicyAnalyzer" />
+
+	<bean id="syncContextFactory" class="org.eclipse.aether.internal.impl.DefaultSyncContextFactory" />
+	<service ref="syncContextFactory" interface="org.eclipse.aether.impl.SyncContextFactory" />
+
+	<bean id="repositoryEventDispatcher" class="org.eclipse.aether.internal.impl.DefaultRepositoryEventDispatcher" />
+	<service ref="repositoryEventDispatcher" interface="org.eclipse.aether.impl.RepositoryEventDispatcher" />
+
+	<bean id="offlineController" class="org.eclipse.aether.internal.impl.DefaultOfflineController" />
+	<service ref="offlineController" interface="org.eclipse.aether.impl.OfflineController" />
+
+	<bean id="localRepositoryProvider" class="org.eclipse.aether.internal.impl.DefaultLocalRepositoryProvider">
+		<property name="localRepositoryManagerFactories">
+			<list>
+				<bean class="org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory" />
+				<bean class="org.eclipse.aether.internal.impl.EnhancedLocalRepositoryManagerFactory" />
+			</list>
+		</property>
+	</bean>
+	<service ref="localRepositoryProvider" interface="org.eclipse.aether.impl.LocalRepositoryProvider" />
+
+</blueprint>

@@ -8,7 +8,7 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.connector.basic;
 
 import javax.inject.Inject;
 import javax.inject.Named;

@@ -59,6 +59,10 @@ public class DefaultUpdateCheckManager
 
     @Requirement
     private UpdatePolicyAnalyzer updatePolicyAnalyzer;
+    
+    public void setUpdatePolicyAnalyzer(UpdatePolicyAnalyzer updatePolicyAnalyzer) {
+        this.updatePolicyAnalyzer = updatePolicyAnalyzer;
+    }
 
     private static final String UPDATED_KEY_SUFFIX = ".lastUpdated";
 
@@ -84,14 +88,14 @@ public class DefaultUpdateCheckManager
     @Inject
     DefaultUpdateCheckManager( UpdatePolicyAnalyzer updatePolicyAnalyzer, LoggerFactory loggerFactory )
     {
-        setUpdatePolicyAnalyzer( updatePolicyAnalyzer );
+        withUpdatePolicyAnalyzer( updatePolicyAnalyzer );
         setLoggerFactory( loggerFactory );
     }
 
     public void initService( ServiceLocator locator )
     {
         setLoggerFactory( locator.getService( LoggerFactory.class ) );
-        setUpdatePolicyAnalyzer( locator.getService( UpdatePolicyAnalyzer.class ) );
+        withUpdatePolicyAnalyzer( locator.getService( UpdatePolicyAnalyzer.class ) );
     }
 
     public DefaultUpdateCheckManager setLoggerFactory( LoggerFactory loggerFactory )
@@ -106,7 +110,7 @@ public class DefaultUpdateCheckManager
         setLoggerFactory( loggerFactory );
     }
 
-    public DefaultUpdateCheckManager setUpdatePolicyAnalyzer( UpdatePolicyAnalyzer updatePolicyAnalyzer )
+    public DefaultUpdateCheckManager withUpdatePolicyAnalyzer( UpdatePolicyAnalyzer updatePolicyAnalyzer )
     {
         if ( updatePolicyAnalyzer == null )
         {

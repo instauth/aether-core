@@ -8,11 +8,14 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.connector.basic;
 
 import static org.junit.Assert.*;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
+import org.eclipse.aether.connector.basic.DefaultChecksumPolicyProvider;
+import org.eclipse.aether.connector.basic.FailChecksumPolicy;
+import org.eclipse.aether.connector.basic.WarnChecksumPolicy;
 import org.eclipse.aether.internal.test.util.TestUtils;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.repository.RepositoryPolicy;

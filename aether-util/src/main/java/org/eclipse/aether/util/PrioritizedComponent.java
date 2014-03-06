@@ -8,9 +8,9 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.util;
 
-final class PrioritizedComponent<T>
+public final class PrioritizedComponent<T>
     implements Comparable<PrioritizedComponent<?>>
 {
 

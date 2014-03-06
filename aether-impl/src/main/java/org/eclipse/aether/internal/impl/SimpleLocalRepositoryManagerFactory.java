@@ -34,7 +34,13 @@ public class SimpleLocalRepositoryManagerFactory
     implements LocalRepositoryManagerFactory, Service
 {
 
-    @Requirement( role = LoggerFactory.class )
+	
+    public SimpleLocalRepositoryManagerFactory() {
+		super();
+		System.out.println("simple local repository manager factory");
+	}
+
+	@Requirement( role = LoggerFactory.class )
     private Logger logger = NullLoggerFactory.LOGGER;
 
     private float priority;

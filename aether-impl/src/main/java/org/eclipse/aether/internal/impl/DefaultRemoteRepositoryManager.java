@@ -50,9 +50,17 @@ public class DefaultRemoteRepositoryManager
 
     @Requirement
     private UpdatePolicyAnalyzer updatePolicyAnalyzer;
+    
+    public void setUpdatePolicyAnalyzer(UpdatePolicyAnalyzer updatePolicyAnalyzer) {
+        this.updatePolicyAnalyzer = updatePolicyAnalyzer;
+    }
 
     @Requirement
     private ChecksumPolicyProvider checksumPolicyProvider;
+    
+    public void setChecksumPolicyProvider(ChecksumPolicyProvider checksumPolicyProvider) {
+        this.checksumPolicyProvider = checksumPolicyProvider;
+    }
 
     public DefaultRemoteRepositoryManager()
     {
@@ -63,19 +71,19 @@ public class DefaultRemoteRepositoryManager
     DefaultRemoteRepositoryManager( UpdatePolicyAnalyzer updatePolicyAnalyzer,
                                     ChecksumPolicyProvider checksumPolicyProvider, LoggerFactory loggerFactory )
     {
-        setUpdatePolicyAnalyzer( updatePolicyAnalyzer );
-        setChecksumPolicyProvider( checksumPolicyProvider );
-        setLoggerFactory( loggerFactory );
+        withUpdatePolicyAnalyzer( updatePolicyAnalyzer );
+        withChecksumPolicyProvider( checksumPolicyProvider );
+        withLoggerFactory( loggerFactory );
     }
 
     public void initService( ServiceLocator locator )
     {
-        setLoggerFactory( locator.getService( LoggerFactory.class ) );
-        setUpdatePolicyAnalyzer( locator.getService( UpdatePolicyAnalyzer.class ) );
-        setChecksumPolicyProvider( locator.getService( ChecksumPolicyProvider.class ) );
+        withLoggerFactory( locator.getService( LoggerFactory.class ) );
+        withUpdatePolicyAnalyzer( locator.getService( UpdatePolicyAnalyzer.class ) );
+        withChecksumPolicyProvider( locator.getService( ChecksumPolicyProvider.class ) );
     }
 
-    public DefaultRemoteRepositoryManager setLoggerFactory( LoggerFactory loggerFactory )
+    public DefaultRemoteRepositoryManager withLoggerFactory( LoggerFactory loggerFactory )
     {
         this.logger = NullLoggerFactory.getSafeLogger( loggerFactory, getClass() );
         return this;
@@ -84,10 +92,10 @@ public class DefaultRemoteRepositoryManager
     void setLogger( LoggerFactory loggerFactory )
     {
         // plexus support
-        setLoggerFactory( loggerFactory );
+        withLoggerFactory( loggerFactory );
     }
 
-    public DefaultRemoteRepositoryManager setUpdatePolicyAnalyzer( UpdatePolicyAnalyzer updatePolicyAnalyzer )
+    public DefaultRemoteRepositoryManager withUpdatePolicyAnalyzer( UpdatePolicyAnalyzer updatePolicyAnalyzer )
     {
         if ( updatePolicyAnalyzer == null )
         {
@@ -97,7 +105,7 @@ public class DefaultRemoteRepositoryManager
         return this;
     }
 
-    public DefaultRemoteRepositoryManager setChecksumPolicyProvider( ChecksumPolicyProvider checksumPolicyProvider )
+    public DefaultRemoteRepositoryManager withChecksumPolicyProvider( ChecksumPolicyProvider checksumPolicyProvider )
     {
         if ( checksumPolicyProvider == null )
         {

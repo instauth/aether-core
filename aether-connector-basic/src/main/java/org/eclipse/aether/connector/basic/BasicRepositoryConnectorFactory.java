@@ -46,15 +46,31 @@ public final class BasicRepositoryConnectorFactory
 
     @Requirement
     private TransporterProvider transporterProvider;
+    
+    public void setTransporterProvider(TransporterProvider transporterProvider) {
+        this.transporterProvider = transporterProvider;
+    }
 
     @Requirement
     private RepositoryLayoutProvider layoutProvider;
 
+    public void setRepositoryLayoutProvider(RepositoryLayoutProvider layoutProvider) {
+        this.layoutProvider = layoutProvider;
+    }
+
     @Requirement
     private ChecksumPolicyProvider checksumPolicyProvider;
+    
+    public void setChecksumPolicyProvider(ChecksumPolicyProvider checksumPolicyProvider) {
+        this.checksumPolicyProvider = checksumPolicyProvider;
+    }
 
     @Requirement
     private FileProcessor fileProcessor;
+    
+    public void setFileProcessor(FileProcessor fileProcessor) {
+        this.fileProcessor = fileProcessor;
+    }
 
     private float priority;
 
@@ -73,20 +89,20 @@ public final class BasicRepositoryConnectorFactory
                                      ChecksumPolicyProvider checksumPolicyProvider, FileProcessor fileProcessor,
                                      LoggerFactory loggerFactory )
     {
-        setTransporterProvider( transporterProvider );
-        setRepositoryLayoutProvider( layoutProvider );
-        setChecksumPolicyProvider( checksumPolicyProvider );
-        setFileProcessor( fileProcessor );
-        setLoggerFactory( loggerFactory );
+        withTransporterProvider( transporterProvider );
+        withRepositoryLayoutProvider( layoutProvider );
+        withChecksumPolicyProvider( checksumPolicyProvider );
+        withFileProcessor( fileProcessor );
+        withLoggerFactory( loggerFactory );
     }
 
     public void initService( ServiceLocator locator )
     {
-        setLoggerFactory( locator.getService( LoggerFactory.class ) );
-        setTransporterProvider( locator.getService( TransporterProvider.class ) );
-        setRepositoryLayoutProvider( locator.getService( RepositoryLayoutProvider.class ) );
-        setChecksumPolicyProvider( locator.getService( ChecksumPolicyProvider.class ) );
-        setFileProcessor( locator.getService( FileProcessor.class ) );
+        withLoggerFactory( locator.getService( LoggerFactory.class ) );
+        withTransporterProvider( locator.getService( TransporterProvider.class ) );
+        withRepositoryLayoutProvider( locator.getService( RepositoryLayoutProvider.class ) );
+        withChecksumPolicyProvider( locator.getService( ChecksumPolicyProvider.class ) );
+        withFileProcessor( locator.getService( FileProcessor.class ) );
     }
 
     /**
@@ -95,7 +111,7 @@ public final class BasicRepositoryConnectorFactory
      * @param loggerFactory The logger factory to use, may be {@code null} to disable logging.
      * @return This component for chaining, never {@code null}.
      */
-    public BasicRepositoryConnectorFactory setLoggerFactory( LoggerFactory loggerFactory )
+    public BasicRepositoryConnectorFactory withLoggerFactory( LoggerFactory loggerFactory )
     {
         this.logger = NullLoggerFactory.getSafeLogger( loggerFactory, BasicRepositoryConnector.class );
         return this;
@@ -104,7 +120,7 @@ public final class BasicRepositoryConnectorFactory
     void setLogger( LoggerFactory loggerFactory )
     {
         // plexus support
-        setLoggerFactory( loggerFactory );
+        withLoggerFactory( loggerFactory );
     }
 
     /**
@@ -113,7 +129,7 @@ public final class BasicRepositoryConnectorFactory
      * @param transporterProvider The transporter provider to use, must not be {@code null}.
      * @return This component for chaining, never {@code null}.
      */
-    public BasicRepositoryConnectorFactory setTransporterProvider( TransporterProvider transporterProvider )
+    public BasicRepositoryConnectorFactory withTransporterProvider( TransporterProvider transporterProvider )
     {
         if ( transporterProvider == null )
         {
@@ -129,7 +145,7 @@ public final class BasicRepositoryConnectorFactory
      * @param layoutProvider The repository layout provider to use, must not be {@code null}.
      * @return This component for chaining, never {@code null}.
      */
-    public BasicRepositoryConnectorFactory setRepositoryLayoutProvider( RepositoryLayoutProvider layoutProvider )
+    public BasicRepositoryConnectorFactory withRepositoryLayoutProvider( RepositoryLayoutProvider layoutProvider )
     {
         if ( layoutProvider == null )
         {
@@ -145,7 +161,7 @@ public final class BasicRepositoryConnectorFactory
      * @param checksumPolicyProvider The checksum policy provider to use, must not be {@code null}.
      * @return This component for chaining, never {@code null}.
      */
-    public BasicRepositoryConnectorFactory setChecksumPolicyProvider( ChecksumPolicyProvider checksumPolicyProvider )
+    public BasicRepositoryConnectorFactory withChecksumPolicyProvider( ChecksumPolicyProvider checksumPolicyProvider )
     {
         if ( checksumPolicyProvider == null )
         {
@@ -161,7 +177,7 @@ public final class BasicRepositoryConnectorFactory
      * @param fileProcessor The file processor to use, must not be {@code null}.
      * @return This component for chaining, never {@code null}.
      */
-    public BasicRepositoryConnectorFactory setFileProcessor( FileProcessor fileProcessor )
+    public BasicRepositoryConnectorFactory withFileProcessor( FileProcessor fileProcessor )
     {
         if ( fileProcessor == null )
         {
@@ -182,7 +198,7 @@ public final class BasicRepositoryConnectorFactory
      * @param priority The priority.
      * @return This component for chaining, never {@code null}.
      */
-    public BasicRepositoryConnectorFactory setPriority( float priority )
+    public BasicRepositoryConnectorFactory withPriority( float priority )
     {
         this.priority = priority;
         return this;

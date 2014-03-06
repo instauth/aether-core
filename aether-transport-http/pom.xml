@@ -46,6 +46,18 @@
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.2.5</version>
+      <exclusions>
+        <exclusion>
+          <!-- using jcl-over-slf4j instead -->
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
       <version>4.2.6</version>
       <exclusions>
@@ -55,6 +67,11 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.6</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -132,7 +149,19 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Import-Package>org.apache.http.*;version="[4.2.1,4.3)",*</Import-Package>
+            <Require-Bundle>
+              org.eclipse.aether.api,
+              org.eclipse.aether.spi
+            </Require-Bundle>
+            <Import-Package>
+            	!org.osgi.service.blueprint,
+            	org.apache.http,
+            	org.apache.http.protocol,
+            	*
+            </Import-Package>
+            <!-- 
+            <Embed-Dependency>*;scope=compile|runtime;inline=false;artifactId=commons-codec|httpcore|httpclient</Embed-Dependency>
+             -->
           </instructions>
         </configuration>
       </plugin>

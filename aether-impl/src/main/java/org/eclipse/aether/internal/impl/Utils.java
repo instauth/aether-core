@@ -22,10 +22,11 @@ import org.eclipse.aether.metadata.Metadata;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.ResolutionErrorPolicy;
 import org.eclipse.aether.resolution.ResolutionErrorPolicyRequest;
+import org.eclipse.aether.util.PrioritizedComponents;
 
 /**
  */
-final class Utils
+public final class Utils
 {
 
     public static PrioritizedComponents<MetadataGeneratorFactory> sortMetadataGeneratorFactories( RepositorySystemSession session,
@@ -92,15 +93,6 @@ final class Utils
             return ResolutionErrorPolicy.CACHE_DISABLED;
         }
         return rep.getMetadataPolicy( session, new ResolutionErrorPolicyRequest<Metadata>( metadata, repository ) );
-    }
-
-    public static void appendClassLoader( StringBuilder buffer, Object component )
-    {
-        ClassLoader loader = component.getClass().getClassLoader();
-        if ( loader != null && !loader.equals( Utils.class.getClassLoader() ) )
-        {
-            buffer.append( " from " ).append( loader );
-        }
     }
 
 }

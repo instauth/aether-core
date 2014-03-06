@@ -10,6 +10,17 @@
  *******************************************************************************/
 package org.eclipse.aether.internal.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.codehaus.plexus.component.annotations.Component;
 import org.codehaus.plexus.component.annotations.Requirement;
 import org.eclipse.aether.DefaultRepositorySystemSession;
@@ -51,16 +62,6 @@ import org.eclipse.aether.util.ConfigUtils;
 import org.eclipse.aether.util.graph.manager.DependencyManagerUtils;
 import org.eclipse.aether.util.graph.transformer.TransformationContextKeys;
 import org.eclipse.aether.version.Version;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  */

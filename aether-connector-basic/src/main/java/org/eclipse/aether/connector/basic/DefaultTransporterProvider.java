@@ -8,7 +8,7 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.connector.basic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +31,9 @@ import org.eclipse.aether.spi.log.Logger;
 import org.eclipse.aether.spi.log.LoggerFactory;
 import org.eclipse.aether.spi.log.NullLoggerFactory;
 import org.eclipse.aether.transfer.NoTransporterException;
+import org.eclipse.aether.util.PrioritizedComponent;
+import org.eclipse.aether.util.PrioritizedComponents;
+import org.eclipse.aether.util.StringUtils;
 
 /**
  */
@@ -46,6 +49,10 @@ public final class DefaultTransporterProvider
     @Requirement( role = TransporterFactory.class )
     private Collection<TransporterFactory> factories = new ArrayList<TransporterFactory>();
 
+    public void setTransporterFactories(Collection<TransporterFactory> transporterFactories) {
+        this.factories = transporterFactories;
+    }
+
     public DefaultTransporterProvider()
     {
         // enables default constructor
@@ -55,13 +62,13 @@ public final class DefaultTransporterProvider
     DefaultTransporterProvider( Set<TransporterFactory> transporterFactories, LoggerFactory loggerFactory )
     {
         setLoggerFactory( loggerFactory );
-        setTransporterFactories( transporterFactories );
+        withTransporterFactories( transporterFactories );
     }
 
     public void initService( ServiceLocator locator )
     {
         setLoggerFactory( locator.getService( LoggerFactory.class ) );
-        setTransporterFactories( locator.getServices( TransporterFactory.class ) );
+        withTransporterFactories( locator.getServices( TransporterFactory.class ) );
     }
 
     public DefaultTransporterProvider setLoggerFactory( LoggerFactory loggerFactory )
@@ -86,7 +93,7 @@ public final class DefaultTransporterProvider
         return this;
     }
 
-    public DefaultTransporterProvider setTransporterFactories( Collection<TransporterFactory> factories )
+    public DefaultTransporterProvider withTransporterFactories( Collection<TransporterFactory> factories )
     {
         if ( factories == null )
         {
@@ -102,7 +109,7 @@ public final class DefaultTransporterProvider
     DefaultTransporterProvider setFactories( List<TransporterFactory> factories )
     {
         // plexus support
-        return setTransporterFactories( factories );
+        return withTransporterFactories( factories );
     }
 
     public Transporter newTransporter( RepositorySystemSession session, RemoteRepository repository )
@@ -130,7 +137,7 @@ public final class DefaultTransporterProvider
                 {
                     StringBuilder buffer = new StringBuilder( 256 );
                     buffer.append( "Using transporter " ).append( transporter.getClass().getSimpleName() );
-                    Utils.appendClassLoader( buffer, transporter );
+                    StringUtils.appendClassLoader( buffer, transporter );
                     buffer.append( " with priority " ).append( factory.getPriority() );
                     buffer.append( " for " ).append( repository.getUrl() );
                     logger.debug( buffer.toString() );

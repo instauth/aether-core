@@ -46,6 +46,7 @@ public class DefaultOfflineController
     public DefaultOfflineController()
     {
         // enables default constructor
+    	System.out.println("default offline controller");
     }
 
     @Inject

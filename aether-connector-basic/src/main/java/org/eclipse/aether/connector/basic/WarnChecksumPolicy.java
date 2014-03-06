@@ -8,7 +8,7 @@
  * Contributors:
  *    Sonatype, Inc. - initial API and implementation
  *******************************************************************************/
-package org.eclipse.aether.internal.impl;
+package org.eclipse.aether.connector.basic;
 
 import org.eclipse.aether.spi.log.LoggerFactory;
 import org.eclipse.aether.transfer.ChecksumFailureException;

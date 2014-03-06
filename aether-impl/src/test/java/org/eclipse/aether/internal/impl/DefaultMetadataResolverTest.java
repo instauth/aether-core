@@ -65,12 +65,12 @@ public class DefaultMetadataResolverTest
         lrm = (TestLocalRepositoryManager) session.getLocalRepositoryManager();
         connectorProvider = new StubRepositoryConnectorProvider();
         resolver = new DefaultMetadataResolver();
-        resolver.setUpdateCheckManager( new StaticUpdateCheckManager( true ) );
+        resolver.withUpdateCheckManager( new StaticUpdateCheckManager( true ) );
         resolver.setRepositoryEventDispatcher( new StubRepositoryEventDispatcher() );
-        resolver.setRepositoryConnectorProvider( connectorProvider );
-        resolver.setRemoteRepositoryManager( new StubRemoteRepositoryManager() );
+        resolver.withRepositoryConnectorProvider( connectorProvider );
+        resolver.withRemoteRepositoryManager( new StubRemoteRepositoryManager() );
         resolver.setSyncContextFactory( new StubSyncContextFactory() );
-        resolver.setOfflineController( new DefaultOfflineController() );
+        resolver.withOfflineController( new DefaultOfflineController() );
         repository =
             new RemoteRepository.Builder( "test-DMRT", "default",
                                           TestFileUtils.createTempDir().toURI().toURL().toString() ).build();
@@ -233,7 +233,7 @@ public class DefaultMetadataResolverTest
 
         MetadataRequest request = new MetadataRequest( metadata, repository, "" );
         request.setFavorLocalRepository( true );
-        resolver.setUpdateCheckManager( new StaticUpdateCheckManager( true, true ) );
+        resolver.withUpdateCheckManager( new StaticUpdateCheckManager( true, true ) );
 
         List<MetadataResult> results = resolver.resolveMetadata( session, Arrays.asList( request ) );
 
